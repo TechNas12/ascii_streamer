@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ASCII 16:9 Video Streamer</title>
+    <link rel="stylesheet" href="css/style.css?v=3">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="logo">
+                <span class="logo-icon">🎬</span>
+                <span class="logo-text">ASCII<span class="accent">Streamer</span></span>
+                <span class="ratio-badge">16:9 HD</span>
+            </div>
+            <div class="header-status">
+                <span id="connectionBadge" class="badge badge-offline">Offline</span>
+                <span id="leadBadge" class="badge badge-lead" title="Server Lookahead Buffer">Lead: 0ms</span>
+            </div>
+        </header>
+
+        <!-- Main Screen Player -->
+        <main class="player-section">
+            <div class="screen-container">
+                <div class="canvas-aspect-box" id="aspectBox">
+                    <canvas id="asciiCanvas"></canvas>
+                    
+                    <!-- Overlay when no video is loaded -->
+                    <div id="dropOverlay" class="screen-overlay active">
+                        <div class="overlay-content">
+                            <div class="upload-icon">📁</div>
+                            <h3>Drag & Drop Video Here</h3>
+                            <p>or click to browse (.mp4, .mkv, .mov, .webm, .avi)</p>
+                            <label for="videoFileInput" class="btn btn-primary browse-btn">Choose Video File</label>
+                            <input type="file" id="videoFileInput" accept="video/*" hidden>
+                        </div>
+                    </div>
+
+                    <!-- Loading / Seeking Spinner -->
+                    <div id="loadingOverlay" class="screen-overlay">
+                        <div class="spinner"></div>
+                        <p id="loadingText">Processing video...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Playback & Time Controls -->
+            <div class="timeline-container">
+                <span id="currentTime" class="time-label">00:00</span>
+                <div class="scrubber-wrapper">
+                    <input type="range" id="seekBar" class="seek-slider" min="0" max="100" step="0.1" value="0" disabled>
+                    <div class="buffer-bar" id="bufferBar"></div>
+                </div>
+                <span id="totalTime" class="time-label">00:00</span>
+            </div>
+
+            <!-- Primary Control Deck -->
+            <div class="controls-deck">
+                <div class="btn-group transport-group">
+                    <button id="stepBackBtn" class="btn btn-icon" title="Seek -5s (Left Arrow)" disabled>⏪ -5s</button>
+                    <button id="playPauseBtn" class="btn btn-accent play-btn" title="Play/Pause (Space)" disabled>
+                        <span id="playIcon">▶</span> <span id="playText">Play</span>
+                    </button>
+                    <button id="stepForwardBtn" class="btn btn-icon" title="Seek +5s (Right Arrow)" disabled>+5s ⏩</button>
+                    <button id="fullscreenBtn" class="btn btn-icon" title="Toggle Fullscreen (F)">⛶</button>
+                    <button id="downloadVideoBtn" class="btn btn-primary download-btn" title="Export & Download ASCII Video with Audio" disabled>⬇ Export MP4</button>
+                </div>
+
+                <!-- Size & Output Resolution Control Group -->
+                <div class="control-card size-card">
+                    <div class="card-title">
+                        <span>Output Size (16:9 Locked)</span>
+                        <span id="gridDimensions" class="dim-label">112 cols × 32 rows</span>
+                    </div>
+                    
+                    <div class="slider-row">
+                        <label for="colsSlider">ASCII Grid Width:</label>
+                        <input type="range" id="colsSlider" min="48" max="480" step="16" value="160">
+                        <span id="colsVal">160</span>
+                    </div>
+
+                    <div class="preset-buttons">
+                        <button class="btn btn-chip" data-cols="80">Compact (80)</button>
+                        <button class="btn btn-chip" data-cols="128">Standard (128)</button>
+                        <button class="btn btn-chip active" data-cols="160">HD (160)</button>
+                        <button class="btn btn-chip" data-cols="240">Full HD (240)</button>
+                        <button class="btn btn-chip" data-cols="320">Ultra HD (320)</button>
+                        <button class="btn btn-chip" data-cols="480">Extreme (480)</button>
+                    </div>
+
+                    <div class="slider-row font-row">
+                        <label for="fontSlider">Font Scale:</label>
+                        <input type="range" id="fontSlider" min="2" max="28" step="1" value="7">
+                        <span id="fontVal">7px</span>
+                        <button id="autoFitBtn" class="btn btn-chip auto-btn" title="Auto fit to container">Auto Fit</button>
+                    </div>
+                </div>
+
+                <!-- Rendering & Visual Toggles -->
+                <div class="control-card visual-card">
+                    <div class="card-title">Visual Styling</div>
+                    
+                    <div class="toggle-group">
+                        <label class="toggle-item">
+                            <input type="checkbox" id="colorToggle" checked>
+                            <span class="toggle-label">Full RGB Color</span>
+                        </label>
+                        <label class="toggle-item">
+                            <input type="checkbox" id="invertToggle">
+                            <span class="toggle-label">Invert Brightness</span>
+                        </label>
+                    </div>
+
+                    <div class="select-row">
+                        <label for="charsetSelect">Character Ramp:</label>
+                        <select id="charsetSelect" class="form-select">
+                            <option value="standard" selected>Standard ( .:-=+*#%@)</option>
+                            <option value="extended">Extended (70-char ramp)</option>
+                            <option value="block">Block Glyphs ( ░▒▓█)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer / Keyboard Shortcuts -->
+        <footer class="app-footer">
+            <div class="shortcuts-hint">
+                <span><kbd>Space</kbd> Play/Pause</span>
+                <span><kbd>←</kbd> <kbd>→</kbd> ±5s Seek</span>
+                <span><kbd>F</kbd> Fullscreen</span>
+                <span><kbd>R</kbd> Auto-Fit</span>
+            </div>
+            <div class="footer-meta">
+                <span>Client-Timed PTS • Native swscale • Binary WebSocket</span>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Export Progress Modal -->
+    <div id="exportModal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>🎬 Rendering ASCII Video</h3>
+                <button id="closeModalBtn" class="btn-close">&times;</button>
+            </div>
+            <p class="modal-desc">Encoding H.264 video with original audio soundtrack...</p>
+            <div class="progress-bar-container">
+                <div id="exportProgressBar" class="progress-fill" style="width: 0%"></div>
+            </div>
+            <div class="modal-stats">
+                <span id="exportProgressPct">0%</span>
+                <span id="exportStatusText">Preparing encoder...</span>
+            </div>
+            <div id="exportSuccessActions" class="modal-actions" style="display: none;">
+                <a id="directDownloadLink" class="btn btn-primary" href="#" download>⬇ Download File</a>
+                <button id="finishModalBtn" class="btn btn-icon">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden measuring element to detect exact monospace character aspect ratio on device -->
+    <span id="fontRuler" class="font-ruler">M</span>
+
+    <script src="js/protocol.js?v=3"></script>
+    <script src="js/clock.js?v=3"></script>
+    <script src="js/player.js?v=3"></script>
+    <script src="js/app.js?v=3"></script>
+</body>
+</html>

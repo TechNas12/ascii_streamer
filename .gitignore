@@ -1,0 +1,219 @@
+# ===================================================================
+# Build & Compiled Output
+# ===================================================================
+target/
+*.class
+
+# Standalone packaged binaries (keep sample images safe)
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# ===================================================================
+# Application Runtime & Media Directories
+# ===================================================================
+# Uploaded source videos & exported rendered videos
+# ===================================================================
+# Build & Compiled Output
+# ===================================================================
+target/
+*.class
+
+# Standalone packaged binaries (keep sample images safe)
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# ===================================================================
+# Application Runtime & Media Directories
+# ===================================================================
+# Uploaded source videos & exported rendered videos
+uploads/
+exports/
+
+# Raw video files in root/subfolders (prevent accidental large commits)
+*.mp4
+*.mkv
+*.mov
+*.avi
+*.webm
+*.flv
+
+# Keep showcase screenshots in sample_images
+!sample_images/
+!sample_images/*.png
+!sample_images/*.jpg
+!sample_images/*.jpeg
+!sample_images/*.gif
+!sample_images/*.webp
+
+# ===================================================================
+# Logging & Temporary Files
+# ===================================================================
+*.log
+logs/
+*.tmp
+*.bak
+*.swp
+*~
+
+# JVM crash logs
+hs_err_pid*
+replay_pid*
+
+# ===================================================================
+# Maven Release & Dependency Metadata
+# ===================================================================
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+
+# ===================================================================
+# IDE & Editor Specific Files
+# ===================================================================
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# Eclipse
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings/
+.springBeans
+.sts4-cache
+
+# Visual Studio Code & Antigravity
+.vscode/
+*.code-workspace
+.history/
+
+# NetBeans
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbproject/
+
+# ===================================================================
+# Operating System Files
+# ===================================================================
+# Windows
+Thumbs.db
+ehthumbs.db
+desktop.ini
+$RECYCLE.BIN/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+exports/
+
+# Raw video files in root/subfolders (prevent accidental large commits)
+*.mp4
+*.mkv
+*.mov
+*.avi
+*.webm
+*.flv
+
+# Keep showcase screenshots in sample_images
+!sample_images/
+!sample_images/*.png
+!sample_images/*.jpg
+!sample_images/*.jpeg
+!sample_images/*.gif
+!sample_images/*.webp
+
+# ===================================================================
+# Logging & Temporary Files
+# ===================================================================
+*.log
+logs/
+*.tmp
+*.bak
+*.swp
+*~
+
+# JVM crash logs
+hs_err_pid*
+replay_pid*
+
+# ===================================================================
+# Maven Release & Dependency Metadata
+# ===================================================================
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+
+# ===================================================================
+# IDE & Editor Specific Files
+# ===================================================================
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# Eclipse
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings/
+.springBeans
+.sts4-cache
+
+# Visual Studio Code & Antigravity
+.vscode/
+*.code-workspace
+.history/
+
+# NetBeans
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbproject/
+
+# ===================================================================
+# Operating System Files
+# ===================================================================
+# Windows
+Thumbs.db
+ehthumbs.db
+desktop.ini
+$RECYCLE.BIN/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
